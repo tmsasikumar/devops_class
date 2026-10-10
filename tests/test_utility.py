@@ -32,6 +32,17 @@ class TestUtilityDivision(unittest.TestCase):
         self.assertEqual(result, "input is invalid - cannot divide by zero")
         self.assertEqual(self.logger.errors, ["input is invalid - cannot divide by zero"])
 
+class   TestUtilityMultiplication(unittest.TestCase):
+    def setUp(self):
+        self.logger = FakeLogger()
+        self.utility = Utility(self.logger)
+
+    def test_multiplication_returns_product(self):
+        self.assertEqual(self.utility.multiplication(2, 3), 6.0)
+        self.assertEqual(self.logger.infos, ["a = 2.0", "b = 3.0"])
+
+    def test_multiplication_accepts_numeric_strings(self):
+        self.assertEqual(self.utility.multiplication("2", "3"), 6.0)
 
 if __name__ == "__main__":
     unittest.main()

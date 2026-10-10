@@ -10,7 +10,17 @@ utility = Utility(logger)
 
 @app.route("/")
 def hello():
-    result = utility.division(request.args.get("a", 0), request.args.get("b", 0))
+    operation = request.args.get("operation", "division")
+    dict_operations = {
+        "division": utility.division,
+        "multiplication": utility.multiplication,
+    }
+
+    if operation not in dict_operations:
+        return "invalid operation", 400
+
+    result = dict_operations[operation](request.args.get("a", 0), request.args.get("b", 0))
+    
     if isinstance(result, str):
         return result
     logger.info(f"result = {result}")

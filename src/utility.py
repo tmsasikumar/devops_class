@@ -11,3 +11,10 @@ class Utility:
             self.logger.error("input is invalid - cannot divide by zero")
             return "input is invalid - cannot divide by zero"
         return a / b
+
+    def multiplication(self, a, b):
+        a = float(a)
+        self.logger.info(f"a = {a}")
+        b = float(b)
+        self.logger.info(f"b = {b}")
+        return a * b
