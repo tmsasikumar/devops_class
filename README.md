@@ -43,11 +43,22 @@ INFO app: 2026-10-10 14:35:15 result = 5.0
 
 If `b` is missing or `0`, the request fails with a division-by-zero error.
 
+## Tests
+
+```bash
+.venv/bin/python -m unittest discover -s tests -p "test_*.py"
+```
+
+GitHub Actions runs the same command on every push and pull request. The workflow is `.github/workflows/tests.yml`.
+
 ## Project layout
 
 | File | Purpose |
 | --- | --- |
 | `app.py` | Flask app and `/` route |
-| `logger.py` | Logger that prefixes every message with a timestamp |
+| `src/logger.py` | Logger that prefixes every message with a timestamp |
+| `src/utility.py` | Division logic |
+| `tests/test_utility.py` | Unit tests for division |
+| `.github/workflows/tests.yml` | GitHub Actions workflow that runs the unit tests |
 | `requirements.txt` | Python dependencies |
 | `setup.sh` | Creates the virtual environment and installs dependencies |

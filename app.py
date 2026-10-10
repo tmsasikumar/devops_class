@@ -1,21 +1,18 @@
 from flask import Flask, request
 
-from logger import Logger
+from src.logger import Logger
+from src.utility import Utility
 
 app = Flask(__name__)
 logger = Logger("app")
+utility = Utility(logger)
 
 
 @app.route("/")
 def hello():
-    a = float(request.args.get("a", 0))
-    logger.info(f"a = {a}")
-    b = float(request.args.get("b", 0))
-    logger.info(f"b = {b}")
-    if b == 0:
-        logger.error("input is invalid - cannot divide by zero")
-        return "input is invalid - cannot divide by zero"
-    result = a / b
+    result = utility.division(request.args.get("a", 0), request.args.get("b", 0))
+    if isinstance(result, str):
+        return result
     logger.info(f"result = {result}")
     return str(result)
 
