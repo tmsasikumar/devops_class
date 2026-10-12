@@ -8,6 +8,10 @@ logger = Logger("app")
 utility = Utility(logger)
 
 
+@app.route("/health")
+def health():
+    return health_check()
+
 @app.route("/")
 def hello():
     operation = request.args.get("operation", "division")
@@ -17,6 +21,7 @@ def hello():
         "addition": utility.addition,
         "subtraction": utility.subtraction,
         "power": utility.power,
+
     }
 
     if operation not in dict_operations:
