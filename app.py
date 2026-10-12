@@ -20,7 +20,7 @@ def hello():
     }
 
     if operation not in dict_operations:
-        return "invalid operation", 400
+        return "invalid operation not supported", 400
 
     result = dict_operations[operation](request.args.get("a", 0), request.args.get("b", 0))
     
