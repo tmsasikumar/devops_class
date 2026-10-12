@@ -49,7 +49,9 @@ If `b` is missing or `0`, the request fails with a division-by-zero error.
 .venv/bin/python -m unittest discover -s tests -p "test_*.py"
 ```
 
-GitHub Actions runs the same command on every push and pull request. The workflow is `.github/workflows/tests.yml`.
+GitHub Actions runs the same command on every push and pull request. After tests pass on a push, the workflow uses `tce-it-cloud.pem` to `scp` the app to `ubuntu@3.108.51.113`, creates a virtual environment there, and starts the app. The workflow is `.github/workflows/tests.yml`.
+
+The instance security group must allow SSH on port 22 from GitHub Actions, and the app listens on port 8080.
 
 ## Project layout
 

@@ -1,4 +1,4 @@
-name: Tests
+name: Test and deploy
 
 on:
   push:
@@ -22,3 +22,48 @@ jobs:
 
       - name: Run unit tests
         run: python -m unittest discover -s tests -p "test_*.py"
+
+  deploy:
+    name: Deploy to AWS EC2
+    needs: unit-tests
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    env:
+      EC2_HOST: 3.108.51.113
+      EC2_USER: ubuntu
+      SSH_KEY: tce-it-cloud.pem
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Copy the app to EC2
+        run: |
+          set -euo pipefail
+          chmod 600 "${SSH_KEY}"
+          ssh -i "${SSH_KEY}" -o StrictHostKeyChecking=accept-new \
+            "${EC2_USER}@${EC2_HOST}" "mkdir -p /home/ubuntu/devops_class"
+          scp -i "${SSH_KEY}" -o StrictHostKeyChecking=accept-new \
+            -r app.py requirements.txt src \
+            "${EC2_USER}@${EC2_HOST}:/home/ubuntu/devops_class/"
+
+      - name: Create a virtualenv and start the app
+        run: |
+          set -euo pipefail
+          chmod 600 "${SSH_KEY}"
+          ssh -i "${SSH_KEY}" -o StrictHostKeyChecking=accept-new \
+            "${EC2_USER}@${EC2_HOST}" "bash -s" << 'EOF'
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y python3-venv
+          cd /home/ubuntu/devops_class
+          python3 -m venv .venv
+          .venv/bin/pip install -r requirements.txt
+          if [[ -f app.pid ]] && kill -0 "$(cat app.pid)" 2>/dev/null; then
+            kill "$(cat app.pid)" || true
+            sleep 1
+          fi
+          nohup .venv/bin/python app.py > app.log 2>&1 &
+          echo $! > app.pid
+          sleep 2
+          kill -0 "$(cat app.pid)"
+          EOF

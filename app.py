@@ -15,6 +15,7 @@ def hello():
         "division": utility.division,
         "multiplication": utility.multiplication,
         "addition": utility.addition,
+        "subtraction": utility.subtraction,
     }
 
     if operation not in dict_operations:
@@ -29,4 +30,4 @@ def hello():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5050, debug=True)
+    app.run(host="0.0.0.0", port=8080, debug=True)
