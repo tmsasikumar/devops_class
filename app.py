@@ -16,6 +16,7 @@ def hello():
         "multiplication": utility.multiplication,
         "addition": utility.addition,
         "subtraction": utility.subtraction,
+        "power": utility.power,
     }
 
     if operation not in dict_operations:

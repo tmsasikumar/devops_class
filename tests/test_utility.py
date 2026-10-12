@@ -55,13 +55,22 @@ class   TestUtilityMultiplication(unittest.TestCase):
 
     def test_multiplication_accepts_numeric_strings(self):
         self.assertEqual(self.utility.multiplication("2", "3"), 6.0)
-        
+
+
     def test_subtraction_returns_difference(self):
         self.assertEqual(self.utility.subtraction(5, 3), 2.0)
         self.assertEqual(self.logger.infos, ["a = 5.0", "b = 3.0"])
 
     def test_subtraction_accepts_numeric_strings(self):
         self.assertEqual(self.utility.subtraction("5", "3"), 2.0)
+
+
+    def test_power_returns_power(self):
+        self.assertEqual(self.utility.power(2, 3), 8.0)
+        self.assertEqual(self.logger.infos, ["a = 2.0", "b = 3.0"])
+
+    def test_power_accepts_numeric_strings(self):
+        self.assertEqual(self.utility.power("2", "3"), 8.0)
 
 if __name__ == "__main__":
     unittest.main()

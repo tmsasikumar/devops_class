@@ -30,3 +30,10 @@ class Utility:
         b = float(b)
         self.logger.info(f"b = {b}")
         return a - b
+
+    def power(self, a, b):
+        a = float(a)
+        self.logger.info(f"a = {a}")
+        b = float(b)
+        self.logger.info(f"b = {b}")
+        return a ** b
